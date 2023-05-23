@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { doc, collection, query, orderBy, limit } from 'firebase/firestore'
 import { db } from '@/firebase'
@@ -6,25 +6,27 @@ import { useFirestore } from '@vueuse/firebase'
 
 export const usePostsStore = () => {
   const perPage: number = 6
-  const postsCount = ref(perPage)
+  const documentsCount = ref(perPage)
 
-  const postsQuery = computed(() => query(collection(db, `posts`), 
+  const firestoreRef = computed(() => query(collection(db, `posts`), 
     orderBy("createdAt", 'desc'), 
-    limit(postsCount.value)
+    limit(documentsCount.value)
   ))
   
-  const posts = useFirestore(postsQuery)  
-
   return defineStore(`posts`, {
+    firestoreRef,
     state: () => ({
-        posts,
-        postsCount,
+        documents: reactive({}),
+        documentsCount,
         perPage
     }),
-    getters: {},
+    getters: {
+      /** access firestore documents as named collection in Vue components */
+      posts: state => state.documents
+    },
     actions: {
       fetchMore() {
-        this.postsCount = this.postsCount + this.perPage
+        this.documentsCount = this.documentsCount + this.perPage
       }
     }
   })()
