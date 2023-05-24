@@ -1,5 +1,11 @@
 {
   "projects": {
     "default": "losvesinos-ead8c"
+  },
+  "targets": {},
+  "etags": {
+    "losvesinos-ead8c": {
+      "extensionInstances": {}
+    }
   }
 }
