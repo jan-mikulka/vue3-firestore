@@ -1,8 +1,7 @@
 import { ref, computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
-import { doc, collection, query, orderBy, limit } from 'firebase/firestore'
+import { collection, query, orderBy, limit } from 'firebase/firestore'
 import { db } from '@/firebase'
-import { useFirestore } from '@vueuse/firebase'
 
 export const usePostsStore = () => {
   const perPage: number = 6
