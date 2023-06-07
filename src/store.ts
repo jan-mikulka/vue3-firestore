@@ -1,8 +1,5 @@
-import { createPinia } from 'pinia'
-import { sync } from '@/stores/plugins/sync'
+import { createPinia } from "pinia";
 
-const store = 
-	createPinia()
-	.use(sync)
+const store = createPinia();
 
-export default store
+export default store;

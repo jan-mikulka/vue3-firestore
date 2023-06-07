@@ -1,32 +1,41 @@
-import { ref, computed, reactive } from 'vue'
-import { defineStore } from 'pinia'
-import { collection, query, orderBy, limit } from 'firebase/firestore'
-import { db } from '@/firebase'
+import { postConverter } from "@/converters/post";
+import { db } from "@/firebase";
+import { useFirestore } from "@vueuse/firebase";
+import { collection, limit, orderBy, query } from "firebase/firestore";
+import { defineStore } from "pinia";
+import { computed, ref, watch } from "vue";
+import { usePostStore } from "./post";
 
-export const usePostsStore = () => {
-  const perPage: number = 6
-  const documentsCount = ref(perPage)
-
-  const firestoreRef = computed(() => query(collection(db, `posts`), 
-    orderBy("createdAt", 'desc'), 
+const firestoreRef = computed(() =>
+  query(
+    collection(db, `posts`).withConverter(postConverter),
+    orderBy("createdAt", "desc"),
     limit(documentsCount.value)
-  ))
-  
-  return defineStore(`posts`, {
-    firestoreRef,
-    state: () => ({
-        documents: reactive({}),
-        documentsCount,
-        perPage
-    }),
-    getters: {
-      /** access firestore documents as named collection in Vue components */
-      posts: state => state.documents
-    },
-    actions: {
-      fetchMore() {
-        this.documentsCount = this.documentsCount + this.perPage
-      }
-    }
-  })()
+  )
+);
+
+const perPage: number = 5;
+const documentsCount = ref(perPage);
+
+const posts = useFirestore(firestoreRef);
+watch(posts, (newPosts) => {
+  newPosts?.forEach((post) => {
+    const postStore = usePostStore(post.id);
+    postStore.$patch({ document: post });
+  });
+});
+
+function fetchMore() {
+  documentsCount.value = documentsCount.value + perPage;
 }
+
+export const usePostsStore = defineStore(`posts`, {
+  state: () => ({
+    posts,
+    documentsCount,
+    perPage,
+  }),
+  actions: {
+    fetchMore,
+  },
+});
