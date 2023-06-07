@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
-import type { PostType } from "../types/PostType";
+import type { PostType } from "@/types/posts";
+// import { usePostsStore } from "@/stores/posts";
 
 const props = defineProps<{
+  postId: string;
   post: PostType;
 }>();
+
+// const postsStore = usePostsStore();
+// const post = postsStore.getPost(postId);
+// console.log({ post });
 </script>
 
 <template>
