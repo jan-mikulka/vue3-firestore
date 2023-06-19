@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import AnInput from "@/components/AnInput.vue";
+import ASwitch from "@/components/ASwitch.vue";
+import AnEditor from "@/components/AnEditor.vue";
 import { usePostStore } from "@/stores/post";
+import TheFormModal from "@/components/TheFormModal.vue";
 const props = defineProps<{
   id: string;
 }>();
@@ -9,7 +11,15 @@ const postStore = usePostStore(props.id);
 </script>
 
 <template>
-  <div>
-    <AnInput :store="postStore" :fieldName="'perex'" />
-  </div>
+  <TheFormModal>
+    <div class="w-full">
+      <div class="mb-4">
+        <ASwitch :store="postStore" fieldName="published" class="" />
+      </div>
+
+      <AnEditor :store="postStore" fieldName="perex" class="blog-post" />
+
+      <AnEditor :store="postStore" fieldName="content" class="blog-post" />
+    </div>
+  </TheFormModal>
 </template>
