@@ -1,16 +1,22 @@
 <script setup lang="ts">
-import { RouterLink } from "vue-router";
-import type { PostType } from "@/types/posts";
-// import { usePostsStore } from "@/stores/posts";
+import {
+  usePostStore,
+  type PostStoreState,
+  type PostStore,
+} from "@/stores/post";
+import { storeToRefs } from "pinia";
+import { toRefs } from "vue";
 
 const props = defineProps<{
   postId: string;
-  post: PostType;
 }>();
 
-// const postsStore = usePostsStore();
-// const post = postsStore.getPost(postId);
-// console.log({ post });
+const { postId } = toRefs(props);
+
+const postStore: PostStore = usePostStore(postId.value);
+const { post }: PostStoreState = storeToRefs(
+  usePostStore(postId.value)
+) as PostStoreState;
 </script>
 
 <template>

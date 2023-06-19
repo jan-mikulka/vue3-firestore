@@ -39,39 +39,32 @@ const remove = () => {
     as="div"
     :open="hasStoreToEdit"
     @close="closeDialog"
-    class="relative z-10"
+    class="relative z-10 w-full"
   >
-    <div class="fixed inset-0 overflow-y-auto">
-      <div class="flex min-h-full items-center justify-center p-4 text-center">
-        <DialogPanel
-          :open="true"
-          class="bg-white w-full max-w-md transform overflow-hidden rounded-2xl p-6 text-left align-middle shadow-xl transition-all"
-        >
-          <DialogTitle
-            as="h3"
-            class="text-gray-900 text-lg font-medium leading-6"
-          >
-            Edit item
-          </DialogTitle>
+    <DialogPanel
+      :open="true"
+      class="fixed inset-0 min-h-full w-full transform items-center justify-center overflow-hidden overflow-y-auto rounded-2xl bg-white p-4 align-middle shadow-xl transition-all"
+    >
+      <DialogTitle as="h3" class="text-gray-900 text-lg font-medium leading-6">
+        Edit item
+      </DialogTitle>
 
-          <template v-if="id">
-            <component :is="editingStore?.form" :id="id" />
+      <template v-if="id">
+        <component :is="editingStore?.form" :id="id" />
 
-            <div>
-              <button class="btn" @click="showRemoveDialog">
-                {{ "common.delete" }}
-              </button>
-              <button class="btn" @click="closeDialog">
-                {{ "common.close" }}
-              </button>
-            </div>
-          </template>
-          <template v-else>
-            The document store does not have an ID and cannot be edited
-          </template>
-        </DialogPanel>
-      </div>
-    </div>
+        <div>
+          <button class="btn bg-red text-white" @click="showRemoveDialog">
+            {{ "common.delete" }}
+          </button>
+          <button class="btn btn-secondary" @click="closeDialog">
+            {{ "common.close" }}
+          </button>
+        </div>
+      </template>
+      <template v-else>
+        The document store does not have an ID and cannot be edited
+      </template>
+    </DialogPanel>
 
     <TheConfirmRemoveDialog
       :isOpen="showingRemoveDialog"
