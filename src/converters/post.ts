@@ -12,6 +12,7 @@ class Post implements PostType {
   title?: string | undefined;
   perex?: string | undefined;
   content?: string | undefined;
+  published: boolean;
   createdAt: Date;
   updatedAt?: Date;
 
@@ -20,6 +21,7 @@ class Post implements PostType {
     this.title = post.title;
     this.perex = post.perex;
     this.content = post.content;
+    this.published = post.published || false;
     this.createdAt = post.createdAt.toDate();
     this.updatedAt = post.updatedAt?.toDate();
   }
