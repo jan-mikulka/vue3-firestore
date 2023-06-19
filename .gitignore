@@ -26,3 +26,7 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+# Project specific files
+
+.firebase/hosting.ZGlzdA.cache
