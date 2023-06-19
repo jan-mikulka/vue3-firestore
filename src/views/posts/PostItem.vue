@@ -21,9 +21,7 @@ const { post }: PostStoreState = storeToRefs(
 </script>
 
 <template>
-  <div
-    class="rounded-md bg-seasalt p-6 text-chestnut shadow-md outline-davys-gray"
-  >
+  <div class="rounded-md bg-light-grey p-6 text-primary shadow-md outline-grey">
     <button class="float-right" @click="() => postStore.edit()">Edit</button>
     <h2 class="text-xl font-bold">
       <RouterLink :to="`blog/${post?.id}`">
@@ -33,7 +31,7 @@ const { post }: PostStoreState = storeToRefs(
 
     <div
       v-if="post?.perex"
-      class="blog-post space-y-2 text-raisin-black"
+      class="blog-post text-raisin-black space-y-2"
       v-html="post?.perex"
     ></div>
   </div>

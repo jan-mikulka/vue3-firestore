@@ -1,4 +1,26 @@
-@import "./base.css";
 @tailwind base;
 @tailwind components;
+
 @tailwind utilities;
+@layer components {
+.btn {
+    @apply inline-block px-5 py-3 rounded-lg focus:outline-none focus:ring focus:ring-offset-2 uppercase tracking-wider font-semibold text-sm sm:text-base;
+  }
+  .btn-primary {
+      @apply bg-primary text-light-grey
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-dark-grey
+  } 
+
+  .blog-post strong {
+    @apply text-[#4E656A]
+  }
+
+  .blog-post a, .blog-post a strong {
+    @apply  bg-primary-light text-light-grey px-1 inline-block -skew-y-1  
+  }
+}
+
+  

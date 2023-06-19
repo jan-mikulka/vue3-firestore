@@ -58,7 +58,7 @@ const partners = [
 </script>
 
 <template>
-  <div class="bg-cadet-gray p-4">
+  <div class="bg-secondary p-4">
     <a v-for="link in partners" :href="link.href" :key="link.href">
       <img :src="link.logo" :width="`${link.size}`" :height="`${link.size}`" />
       {{ link.name }}

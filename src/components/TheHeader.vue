@@ -6,7 +6,7 @@ const links = [
 </script>
 
 <template>
-  <div class="bg-platinum px-4 text-right">
+  <div class="bg-secondary-light px-4 text-right">
     <RouterLink
       v-for="link in links"
       :to="link.href"
