@@ -1,24 +1,22 @@
-import { get, set, debounce, assign } from "radash";
+import { get, debounce } from "radash";
 import { computed } from "vue";
 import { setDoc } from "firebase/firestore";
-import type { AnyFirestoreValue } from "@/types/common/firebase";
+import type {
+  AnyFirestoreValue,
+  FirestoreDocumentUpdate,
+} from "@/types/common/firebase";
 import type { DocumentReference } from "firebase/firestore";
-
-type UpdatePayload = {
-  updatedAt: Date;
-  [key: string]: object;
-};
 
 export function updateDB({
   firestoreRef,
   data,
 }: {
   firestoreRef: DocumentReference;
-  data: object;
+  data: FirestoreDocumentUpdate;
 }) {
-  const newData = set(data, "updatedAt", new Date());
-  console.log({ newData });
-  setDoc(firestoreRef, newData, { merge: true });
+  data.updatedAt = new Date();
+  console.log({ data });
+  setDoc(firestoreRef, data, { merge: true });
 }
 
 type FieldType = {
@@ -33,17 +31,21 @@ export function useField({ store, fieldName, delay = 0 }: FieldType) {
   const debouncedUpdate = debounce({ delay }, updateDB);
   const value = computed(() => get(store, `document.${fieldName}`) || ""); //?
 
-  const updateDebounced = (value: AnyFirestoreValue) =>
+  const updateDebounced = (value: AnyFirestoreValue) => {
+    const data: object = { [fieldName]: value };
     debouncedUpdate({
       firestoreRef,
-      data: set({}, fieldName, value),
+      data,
     });
+  };
 
-  const update = (value: AnyFirestoreValue) =>
+  const update = (value: AnyFirestoreValue) => {
+    const data = { [fieldName]: value };
     updateDB({
       firestoreRef,
-      data: set({}, `${fieldName}`, value),
+      data,
     });
+  };
 
   return {
     value,
